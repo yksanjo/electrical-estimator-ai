@@ -5,13 +5,17 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  // No authentication required
-  const user = { email: 'demo@example.com' }
+  // Demo mode - fully functional
+  const user = { email: 'demo@electricpro.com' }
   const profile = { subscription_status: 'active' }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Top banner for demo mode */}
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-medium">
+        ⚡ Demo Mode - Showing sample estimates • Ready to get started? Contact us to unlock full features
+      </div>
+      <nav className="bg-white shadow-md border-b-2 border-orange-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 justify-between">
             <div className="flex">

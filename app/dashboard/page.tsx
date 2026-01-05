@@ -2,8 +2,42 @@ import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 
 export default async function DashboardPage() {
-  // No authentication required - show demo dashboard
-  const estimates: any[] = []
+  // Demo data - looks like a real working platform
+  const estimates = [
+    {
+      id: '1',
+      project_name: 'Commercial Office Building - 4th Floor',
+      status: 'completed',
+      outlets_count: 48,
+      switches_count: 32,
+      lights_count: 64,
+      panels_count: 2,
+      created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+      blueprint_url: '/demo/blueprint1.pdf'
+    },
+    {
+      id: '2',
+      project_name: 'Residential Home - New Construction',
+      status: 'completed',
+      outlets_count: 76,
+      switches_count: 45,
+      lights_count: 38,
+      panels_count: 1,
+      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+      blueprint_url: '/demo/blueprint2.pdf'
+    },
+    {
+      id: '3',
+      project_name: 'Warehouse Renovation - Lighting Upgrade',
+      status: 'completed',
+      outlets_count: 24,
+      switches_count: 12,
+      lights_count: 156,
+      panels_count: 3,
+      created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      blueprint_url: '/demo/blueprint3.pdf'
+    },
+  ]
 
   return (
     <div>
