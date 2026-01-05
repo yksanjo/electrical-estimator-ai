@@ -1,20 +1,8 @@
-import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { formatDistanceToNow } from 'date-fns'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // For now, show empty dashboard if no user
-  const { data: estimates } = user ? await supabase
-    .from('estimates')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false }) : { data: [] }
+  // No authentication required - show demo dashboard
+  const estimates = []
 
   return (
     <div>
