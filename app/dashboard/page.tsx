@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { formatDistanceToNow } from 'date-fns'
 
 export default async function DashboardPage() {
   // No authentication required - show demo dashboard
