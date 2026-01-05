@@ -3,11 +3,13 @@ import { stripe } from '@/lib/stripe'
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
-// Need service role key for webhook to update user data
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Lazy-load Supabase admin client to avoid build-time initialization
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  )
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -34,6 +36,7 @@ export async function POST(request: NextRequest) {
         const tier = session.metadata?.subscription_tier
 
         if (userId && session.subscription) {
+          const supabaseAdmin = getSupabaseAdmin()
           await supabaseAdmin.from('profiles').update({
             subscription_status: 'active',
             subscription_tier: tier,
@@ -60,6 +63,7 @@ export async function POST(request: NextRequest) {
               ).toISOString()
             }
 
+            const supabaseAdmin = getSupabaseAdmin()
             await supabaseAdmin.from('profiles').update(updateData).eq('id', userId)
           }
         }
@@ -74,6 +78,7 @@ export async function POST(request: NextRequest) {
           const userId = customer.metadata?.supabase_user_id
 
           if (userId) {
+            const supabaseAdmin = getSupabaseAdmin()
             await supabaseAdmin.from('profiles').update({
               subscription_status: 'canceled',
             }).eq('id', userId)
@@ -90,6 +95,7 @@ export async function POST(request: NextRequest) {
           const userId = customer.metadata?.supabase_user_id
 
           if (userId) {
+            const supabaseAdmin = getSupabaseAdmin()
             await supabaseAdmin.from('profiles').update({
               subscription_status: 'past_due',
             }).eq('id', userId)
