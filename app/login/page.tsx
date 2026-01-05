@@ -1,6 +1,10 @@
 import { login, signup } from './actions'
 
-export default function LoginPage() {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: { error?: string }
+}) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -12,6 +16,17 @@ export default function LoginPage() {
             AI-Powered Electrical Estimating
           </p>
         </div>
+        {searchParams.error && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">
+                  {searchParams.error}
+                </h3>
+              </div>
+            </div>
+          </div>
+        )}
         <form className="mt-8 space-y-6 bg-white px-8 py-10 shadow rounded-lg">
           <div className="space-y-4">
             <div>
