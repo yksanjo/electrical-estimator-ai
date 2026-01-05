@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default async function DashboardPage() {
   // No authentication required - show demo dashboard
-  const estimates = []
+  const estimates: any[] = []
 
   return (
     <div>
