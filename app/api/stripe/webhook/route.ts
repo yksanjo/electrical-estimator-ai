@@ -49,11 +49,11 @@ export async function POST(request: NextRequest) {
         if ('metadata' in customer) {
           const userId = customer.metadata?.supabase_user_id
 
-          if (userId) {
+          if (userId && subscription.current_period_end) {
             await supabaseAdmin.from('profiles').update({
               subscription_status: subscription.status,
               subscription_current_period_end: new Date(
-                subscription.current_period_end * 1000
+                (subscription.current_period_end as number) * 1000
               ).toISOString(),
             }).eq('id', userId)
           }
