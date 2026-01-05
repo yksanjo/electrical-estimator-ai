@@ -9,11 +9,12 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const { data: estimates } = await supabase
+  // For now, show empty dashboard if no user
+  const { data: estimates } = user ? await supabase
     .from('estimates')
     .select('*')
-    .eq('user_id', user!.id)
-    .order('created_at', { ascending: false })
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false }) : { data: [] }
 
   return (
     <div>
