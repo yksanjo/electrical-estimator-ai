@@ -1,8 +1,18 @@
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-})
+let openaiClient: OpenAI | null = null
+
+function getOpenAIClient() {
+  if (!openaiClient && process.env.OPENAI_API_KEY) {
+    openaiClient = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  }
+  if (!openaiClient) {
+    throw new Error('OpenAI API key not configured')
+  }
+  return openaiClient
+}
 
 export interface ElectricalEstimate {
   outlets_count: number
@@ -45,6 +55,7 @@ Return your analysis in JSON format with the following structure:
 
 Be as accurate as possible. If certain items are not visible or unclear, estimate based on typical electrical standards.`
 
+  const openai = getOpenAIClient()
   const response = await openai.chat.completions.create({
     model: 'gpt-4-vision-preview',
     messages: [
