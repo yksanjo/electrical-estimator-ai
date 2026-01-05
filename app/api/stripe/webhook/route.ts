@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
             if ('current_period_end' in subscription && subscription.current_period_end) {
               updateData.subscription_current_period_end = new Date(
-                subscription.current_period_end * 1000
+                Number(subscription.current_period_end) * 1000
               ).toISOString()
             }
 
