@@ -1,21 +1,29 @@
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // Demo mode - fully functional
-  const user = { email: 'demo@electricpro.com' }
-  const profile = { subscription_status: 'active' }
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Top banner for demo mode */}
-      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 text-center text-sm font-medium">
-        ⚡ Demo Mode - Showing sample estimates • Ready to get started? Contact us to unlock full features
-      </div>
-      <nav className="bg-white shadow-md border-b-2 border-orange-500">
+      <nav className="bg-white shadow-md border-b-2 border-blue-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 justify-between">
             <div className="flex">
